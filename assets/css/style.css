@@ -5,6 +5,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
+/* Header Section  */
 .header-sec {
   display: flex;
   flex-direction: column;
@@ -25,33 +26,51 @@
   gap: 5px;
 }
 
-h1 {
+.titles h1 {
   font-weight: 900;
   text-align: center;
 }
 
-p {
+.titles p {
+  text-align: center;
+} 
+
+.search-func {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+} 
+
+.search-bar {
+  width: 100%;
+  padding-left: 15px;
+  font-size: 1.0em;
+  border-radius: 30px;
+  color: white;
+} 
+
+.search-btn {
+  width: 50%;
+  border-radius: 30px;
+
+  margin: 0 auto;
+  color: white;
+} 
+
+/* Past Searches Section  */
+.btn-container{
+  display: flex;
+  flex-direction: column;
+}
+
+.past-title {
   text-align: center;
 }
 
-.dashboard{
-  display: flex;
-  padding: 20px;
-}
-
-input {
+.past-search {
   border-radius: 30px;
-  padding-left: 15px;
-  width: 100%;
-
+  width: 50%;
   font-size: 1.0em;
   color: white;
+  margin: 0 auto;
 }
-
-section{
-  display: flex;
-  justify-content: center;
-}
-
-.search-bar {
-} 

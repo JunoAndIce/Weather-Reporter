@@ -9,10 +9,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 
-  <title>Document</title>
+  <title has-text-light>Document</title has-text-light>
 </head>
 <body>
   
+
+<!-- TODO: Add buttons from past searches  -->
+<!-- TODO: Main column should contain most recent search with weather information. -->
+<!-- TODO: Featured Forecast section should contain 5 cards with the day of the week -->
 
 
 <header class="hero">
@@ -25,8 +29,13 @@
         <p class="has-text-light">Your daily weather report!</p>
       </div>
 
-      <div class="search-bar">
-        <input type="text" placeholder="Search for a city...">
+      <div class="search-container">
+        <form action="">
+          <div class="search-func">
+            <input class="search-bar" type="text" placeholder="Search for a city...">
+            <input class="search-btn" type="button" value="Search">
+          </div>
+        </form>
       </div>
 
     </div>
@@ -34,11 +43,97 @@
   </div>
 </header>
 
-<section class="dashboard">
-  <div>
+
+<div class="tile is-ancestor">
+  <div class="tile is-parent is-8">
+    <div class="tile is-child is-vertical">
+
+      <div class="tile is-parent"> 
+        <article class="tile is-child">
+          <p class="title has-text-light">Main column</p>
+          <p class="subtitle has-text-light">current date</p>
+          <p class="has-text-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus modi quod sapiente molestias quisquam omnis optio accusamus nisi beatae ullam vero perferendis molestiae atque eaque odio architecto, tempore adipisci mollitia?
+          Sunt dignissimos fuga dicta dolorum sint vel mollitia accusantium id quisquam optio, architecto sapiente commodi eaque quae deleniti reiciendis libero rerum recusandae numquam inventore harum iure nisi, asperiores minima. Officiis!
+          Ullam aut quae eligendi dolorem, quidem harum facere quisquam, voluptates porro, alias suscipit dolores autem. Sapiente quibusdam consequuntur ex ab alias non, atque, excepturi qui accusantium aliquid aspernatur, at repudiandae.
+          Dignissimos alias vitae fugiat. Dolore esse repellat illum alias molestiae reiciendis, reprehenderit quibusdam aut quia vitae illo doloribus consequuntur aliquam neque! Praesentium magni maiores perferendis cumque ipsa. Quam, numquam quos.
+          Corporis totam molestias laudantium iste sed voluptas pariatur placeat tempore! Consectetur, voluptates. Rem, explicabo amet ipsa minus dignissimos dolorem suscipit? Quas beatae expedita labore, asperiores ipsam repellendus molestiae vero rerum!</p>
+        </article>
+      </div>
+
+
+
+    </div>
     
   </div>
-</section>
+
+  <div class ="tile is-parent">
+    <article class="tile is-child">
+      <p class="past-title title has-text-light">Past Searches</p>
+      <div class="btn-container">
+        <input class="past-search" type="button" value="CITY DATA">
+      </div>
+    </article>
+  </div>
+</div>
+
+
+<div class="tile is-ancestor">
+  <!-- TOP 2 TILES -->
+  <div class="tile is-parent is-12">
+      <!-- LEFT TOP TILE -->
+      <div class="tile is-child is-vertical">
+          <!-- title has-text-light OF SECTION -->
+          <div class="tile is-parent">
+              <article class="tile is-child">
+                  <p class="title has-text-light">Featured Forecast</p>
+              </article>
+          </div>
+          <!-- ROW OF THREE DAY -->
+          <div class="tile is-parent">
+              <!-- DAY ONE BLOCK-->
+              <div class="tile m-2">
+                  <article class="tile is-child">
+                      <figure class="image is-3by4">
+                          <img src="https://bulma.io/images/placeholders/480x640.png">
+                      </figure>
+                  </article>
+              </div>
+              <!-- DAY TWO BLOCK-->
+              <div class="tile m-2">
+                  <article class="tile is-child">
+                      <figure class="image is-3by4">
+                          <img src="https://bulma.io/images/placeholders/480x640.png">
+                      </figure>
+                  </article>
+              </div>
+              <!-- DAY THREE BLOCK-->
+              <div class="tile m-2">
+                  <article class="tile is-child">
+                      <figure class="image is-3by4">
+                          <img src="https://bulma.io/images/placeholders/480x640.png">
+                      </figure>
+                  </article>
+              </div>
+              <!-- DAY FOUR BLOCK-->
+              <div class="tile m-2">
+                  <article class="tile is-child">
+                      <figure class="image is-3by4">
+                          <img src="https://bulma.io/images/placeholders/480x640.png">
+                      </figure>
+                  </article>
+              </div>
+              <!-- DAY FIVE BLOCK-->
+              <div class="tile m-2">
+                  <article class="tile is-child">
+                      <figure class="image is-3by4">
+                          <img src="https://bulma.io/images/placeholders/480x640.png">
+                      </figure>
+                  </article>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
 
 
 

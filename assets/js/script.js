@@ -28,6 +28,8 @@ var key = '5a2f98c3ec37f50410b5783b70b8d363'
 var locationData = [];
 var weatherInformation = [];
 
+
+// INITIAL SEARCH BUTTON. 
 searchBtn.addEventListener('click', function() {
   fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${searchValue.value}&limit=5&appid=${key}`)
 
@@ -44,63 +46,7 @@ searchBtn.addEventListener('click', function() {
     createButton(searchValue);
   });
 })
-
-// This is where the weather for the current day is pulled.
-function getWeather(name,lat,long,date) {
-  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${key}`)
-
-  .then(function(weather) {
-    return weather.json();
-  }) 
-
-  .then(function(weatherData){
-    // TODO: MOVE INTO A FUNCTION 
-    weatherInformation = weatherData;
-    console.log(weatherInformation)
-    tempVal.innerHTML = weatherInformation.main.temp + "&#8451";
-    locVal.innerHTML = weatherInformation.name + ', ' + weatherInformation.sys.country;
-    dateVal.innerHTML = date;
-    weaVal.innerHTML = weatherInformation.weather[0].main;
-    // + "... " + weatherInformation.weather[0].description;
-    lightText(locVal);
-    lightText(weaVal);
-    lightText(dateVal);
-    weatherIcon.src = 'https://openweathermap.org/img/wn/' + weatherInformation.weather[0].icon + '@2x.png' ;
-    ;
-  }) 
-}
-  
-
-
-// Get data from the array and pass it into the Getweather function.
-function dataInit(data){
-  var name = data[0].name;
-  var state = data[0].state;
-  var lat = data[0].lat;
-  var long = data[0].lon;
-  timeZone = data[0].country;
-
-  var date = dayjs.utc(reformatDate).tz(timeZone).local().toDate();
-
-  // API NINJAS TIMEZONE APPLIED
-  var city = 'london'
-$.ajax({
-    method: 'GET',
-    url: 'https://api.api-ninjas.com/v1/timezone?city=' + city,
-    headers: { 'X-Api-Key': '5+fMkk9J6kNWsJlswZRt+w==9jRrN5PiMfoWfMd2'},
-    contentType: 'application/json',
-    success: function(result) {
-        console.log(result);
-    },
-    error: function ajaxError(jqXHR) {
-        console.error('Error: ', jqXHR.responseText);
-    }
-});
-  getWeather(name, lat, long, date);
-}
-
-
-
+// CREATES BUTTON 
 function createButton(search){
   var newInput = document.createElement("input");
 
@@ -112,6 +58,78 @@ function createButton(search){
   btnCtn.appendChild(newInput);
   
 }
+
+// DATA INIT SECTION 
+// Get data from the array and pass it into the Getweather function.
+function dataInit(data){
+  var name = data[0].name;
+  var state = data[0].state;
+  var lat = data[0].lat;
+  var long = data[0].lon;
+  var country = data[0].country;
+
+  
+  getTime(name, country);
+  
+  getWeather(name, state, lat, long, date, country);
+  
+}
+
+function getTime(name, country){
+  // API NINJAS TIMEZONE APPLIED
+  $.ajax({
+    method: 'GET',
+    url: 'https://api.api-ninjas.com/v1/timezone?city=' + name + '&country=' + country,
+    headers: { 'X-Api-Key': '5+fMkk9J6kNWsJlswZRt+w==9jRrN5PiMfoWfMd2' },
+    contentType: 'application/json',
+    success: function (result) {
+      console.log(result);
+
+      var date = dayjs.utc(reformatDate).tz(result.timezone).local().toDate();
+      
+      dateVal.innerHTML = date;
+    },
+    error: function ajaxError(jqXHR) {
+      console.error('Error: ', jqXHR.responseText);
+    }
+  });
+}
+
+// Where semantic html values are changed 
+function getWeather(name,state,lat,long,date,country) {
+  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${key}`)
+
+  .then(function(weather) {
+    return weather.json();
+  }) 
+
+  .then(function(weatherData){
+
+    weatherInformation = weatherData;
+    console.log(weatherInformation)
+    tempVal.innerHTML = weatherInformation.main.temp + "&#8451";
+    locVal.innerHTML = weatherInformation.name + ', ' + state;
+    weaVal.innerHTML = weatherInformation.weather[0].main + "... " + weatherInformation.weather[0].description;;
+
+    // getTime();
+    // 
+    
+    // 
+    lightText(locVal);
+    lightText(weaVal);
+    lightText(dateVal);
+    weatherIcon.src = 'https://openweathermap.org/img/wn/' + weatherInformation.weather[0].icon + '@2x.png' ;
+    ;
+  }) 
+}
+
+// Small function to shorten code 
+function lightText(titles) {
+  titles.classList.remove('linfo');
+  titles.classList.add('has-text-light');
+  
+}
+
 
 function pastSearch(search) {
 
@@ -130,11 +148,6 @@ function pastSearch(search) {
 }
 
 
-function lightText(titles) {
-  titles.classList.remove('linfo');
-  titles.classList.add('has-text-light');
-  
-}
 
 
 // searchBtn.addEventListener('click', () => {

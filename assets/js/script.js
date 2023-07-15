@@ -2,7 +2,7 @@
 
 
 var searchBtn = document.querySelector(".search-btn");
-var pastSearch = document.querySelector(".past-search")
+// var pastSearch = document.querySelectorAll(".past-search");
 var searchValue = document.querySelector("#search-bar");
 var tempVal = document.querySelector(".temp");
 var windVal = document.querySelector(".wind");
@@ -19,19 +19,7 @@ var key = '5a2f98c3ec37f50410b5783b70b8d363'
 var locationData = [];
 var weatherInformation = [];
 
-function dataInit(data){
-  
-    var name = locationData[0].name;
-    var lat = locationData[0].lat;
-    var long = locationData[0].lon;
-
-    
-
-    getWeather(name,lat,long);
-}
-
 searchBtn.addEventListener('click', function() {
-
   fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${searchValue.value}&limit=5&appid=${key}`)
 
   .then(function(response) { 
@@ -40,44 +28,21 @@ searchBtn.addEventListener('click', function() {
   
   .then(function(data) {
     console.log(data)
-    dataInit(data);
-
-    var input = document.createElement("input");
-    input.type = 'button';
-    input.value = searchValue.value;
-    input.className = 'past-search';
-    btnCtn.appendChild(input);
-
+    locationData = data;
+    
+    dataInit(locationData);
+    createButton(searchValue);
   });
 })
 
-pastSearch.addEventListener('click', function() {
-
-  fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${pastSearch.value}&limit=5&appid=${key}`)
-
-  .then(function(response) {
-    return response.json();
-  })
-  
-  .then(function(data) {
-    console.log(data)
-    dataInit(data);
-  });
-})
-
-function lightText(titles) {
-  titles.classList.remove('linfo');
-  titles.classList.add('has-text-light');
-  
-}
-
-
-
+// This is where the weather for the current day is pulled.
 function getWeather(name,lat,long) {
   fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${key}`)
+
   .then(function(weather) {
     return weather.json();
   }) 
+
   .then(function(weatherData){
     // TODO: MOVE INTO A FUNCTION 
     weatherInformation = weatherData;
@@ -96,6 +61,51 @@ function getWeather(name,lat,long) {
 }
   
 
+// Get data from the array and pass it into the Getweather function.
+function dataInit(data){
+  var name = data[0].name;
+  var lat = data[0].lat;
+  var long = data[0].lon;
+
+  getWeather(name,lat,long);
+}
+
+
+
+function createButton(search){
+  var newInput = document.createElement("input");
+
+  newInput.type = 'button';
+  newInput.value = search.value;
+  newInput.className = 'past-search';
+  newInput.onclick = pastSearch(newInput.value);
+
+  btnCtn.appendChild(newInput);
+  
+}
+
+function pastSearch(search) {
+
+  fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=5&appid=${key}`)
+
+  .then(function(response) {
+    return response.json();
+  })
+  
+  .then(function(data) {
+    console.log(data)
+    locationData = data;
+
+    dataInit(locationData);
+  });
+}
+
+
+function lightText(titles) {
+  titles.classList.remove('linfo');
+  titles.classList.add('has-text-light');
+  
+}
 
 
 // searchBtn.addEventListener('click', () => {

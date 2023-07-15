@@ -1,23 +1,34 @@
 
-// import dayjs from 'dayjs'
-// import utc from 'dayjs/plugin/utc'
-// import tz from 'dayjs/plugin/timezone'
-
 dayjs.extend(window.dayjs_plugin_utc)
 dayjs.extend(window.dayjs_plugin_timezone)    
 
-var searchBtn = document.querySelector(".search-btn");
-// var pastSearch = document.querySelectorAll(".past-search");
-var searchValue = document.querySelector("#search-bar");
-var tempVal = document.querySelector(".temp");
-var windVal = document.querySelector(".wind");
-var humidVal = document.querySelector(".humid");
-
+// Current Weather Values 
 const locVal = document.getElementById("location");
 const dateVal = document.getElementById("date");
 const weaVal = document.getElementById("weather");
-const weatherIcon = document.getElementById("icon");
+const weatherIcon = document.getElementById("weather-icon ");
+const tempVal = document.getElementById("temp");
+const maxTempVal = document.getElementById("maxTemp");
+const minTempVal = document.getElementById("minTemp");
+const feelVal = document.getElementById("feels");
+const humidVal = document.getElementById("humid");
+const degVal = document.getElementById("deg");
+const spdVal = document.getElementById("spd");
+
 const btnCtn = document.querySelector('.btn-container');
+const searchBtn = document.querySelector(".search-btn");
+const clearBtn = document.querySelector(".clear-btn");
+const searchValue = document.querySelector("#search-bar");
+
+
+// FORECAST SECTION 
+// DAY 1
+const day1Weather = document.getElementById("day1-weather");
+const day1Date = document.getElementById("day1-date");
+const day1Icon = document.getElementById("day1-icon");
+const day1Temp = document.getElementById("day1-temp");
+const day1WindSpd = document.getElementById("day1-windSpd");
+const day1Humid = document.getElementById("day1-humid");
 
 // DayJS Stuff 
 var reformatDate = dayjs().format('dddd, MMMM D YYYY, h:mm:ss a');
@@ -35,8 +46,9 @@ var weatherObj = {
 }
 
 // INITIAL SEARCH BUTTON. 
-searchBtn.addEventListener('click', function() {
-  fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${searchValue.value}&limit=5&appid=${key}`)
+searchBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${searchValue.value}&limit=1&appid=${key}`)
 
   .then(function(response) { 
     return response.json();
@@ -48,21 +60,46 @@ searchBtn.addEventListener('click', function() {
     
 
     dataInit(data);
-    createButton(searchValue);
-  });
-})
-// CREATES BUTTON 
-function createButton(search){
-  var newInput = document.createElement("input");
+  })
 
-  newInput.type = 'button';
-  newInput.value = search.value.toUpperCase();
-  newInput.className = 'past-search';
-  newInput.onclick = function() {pastSearch(newInput.value)};
+  // .catch(err => alert("Please search for a city!"));
 
-  btnCtn.appendChild(newInput);
   
+})
+
+createButton();
+// CREATES BUTTON 
+function createButton() {
+  Object.keys(localStorage).forEach((key) => {
+
+    console.log(key);
+    var newInput = document.createElement("input");
+    newInput.type = 'button';
+    newInput.value = key;
+    newInput.className = 'past-search';
+    btnCtn.appendChild(newInput);
+
+    newInput.onclick = function () { pastSearch(newInput.value) };
+  });
 }
+
+// Past search functions 
+function pastSearch(s) {
+
+  const sCap = 
+    s.charAt(0).toUpperCase() + s.slice(1); 
+
+  weatherObj = JSON.parse(localStorage.getItem(sCap));
+
+
+  getTime(weatherObj);
+  getWeather(weatherObj);
+  get5Weather(weatherObj);
+}
+
+clearBtn.addEventListener('click', function(){
+  localStorage.clear();
+})
 
 // DATA INIT SECTION 
 // Get data from the array and pass it into the Getweather function.
@@ -75,14 +112,15 @@ function dataInit(data){
   weatherObj.country = data[0].country;
 
   weatherInfo.push(weatherObj);
-  localStorage.setItem(weatherObj.name , weatherInfo)
+  localStorage.setItem(weatherObj.name , JSON.stringify(weatherObj));
 
   getTime(weatherObj);
   getWeather(weatherObj);
+  get5Weather(weatherObj);
   
 }
 
-function getTime({name, country}){
+function getTime ({name, country}){
   // API NINJAS TIMEZONE APPLIED
   $.ajax({
     method: 'GET',
@@ -91,8 +129,9 @@ function getTime({name, country}){
     contentType: 'application/json',
     success: function (result) {
       console.log(result);
+      console.log(result.timezone);
 
-      var date = dayjs.utc(reformatDate).tz(result.timezone).local().toDate();
+      var date = dayjs.utc(reformatDate).tz(result.timezone).format();
       
       dateVal.innerHTML = date;
     },
@@ -102,7 +141,7 @@ function getTime({name, country}){
   });
 }
 
-// Where semantic html values are changed 
+// Get todays weather.
 function getWeather({lat,long}) {
   fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${key}`)
 
@@ -118,10 +157,39 @@ function getWeather({lat,long}) {
   }) 
 }
 
+function get5Weather({lat,long}) {
+  fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&cnt=48&appid=${key}`)
+
+  .then(function(weather) {
+    return weather.json();
+  }) 
+
+  .then(function(weatherData){
+
+    console.log(weatherData)
+    showForecast(weatherData);
+    
+  }) 
+}
+
+
 function showText(weatherData){
-    tempVal.innerHTML = weatherData.main.temp + "&#8451";
-    locVal.innerHTML = weatherData.name + ', ' + weatherObj.state;
-    weaVal.innerHTML = weatherData.weather[0].main + "... " + weatherData.weather[0].description;;
+    tempVal.innerHTML = weatherData.main.temp + "&deg;c";
+    maxTempVal.innerHTML = weatherData.main.temp_max + "&deg;c";
+    minTempVal.innerHTML = weatherData.main.temp_min + "&deg;c";
+    feelVal.innerHTML = weatherData.main.feels_like + "&deg;c";
+
+    humidVal.innerHTML = weatherData.main.humidity + '%';
+    degVal.innerHTML = weatherData.wind.deg + '&#176';
+    spdVal.innerHTML = weatherData.wind.speed + ' m/s';
+
+    if (typeof weatherObj.state != 'undefined'){
+      locVal.innerHTML = weatherData.name + ', ' + weatherObj.state;
+    }
+    else {
+      locVal.innerHTML = weatherData.name;
+    }
+    weaVal.innerHTML = weatherData.weather[0].main + "... " + weatherData.weather[0].description;
 
     // getTime();
     // 
@@ -133,50 +201,29 @@ function showText(weatherData){
     weatherIcon.src = 'https://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '@2x.png';
 }
 
+function showForecast(weatherData){
+  day1Weather.innerHTML = weatherData.list[4].weather[0].main + "... " + weatherData.list[4].weather[0].description;
+
+  var futureDate = weatherData.list[4].dt_txt.split(" ");
+  day1Date.innerHTML = futureDate[0];
+
+  day1Icon.src = 'https://openweathermap.org/img/wn/' + weatherData.list[4].weather[0].icon + '@2x.png';
+  day1Temp.innerHTML = weatherData.list[4].main.temp + "&deg;c";
+  day1WindSpd.innerHTML = weatherData.list[4].wind.speed + 'm/s';
+  day1Humid.innerHTML = weatherData.list[4].main.humidity + '%';
+  
+  lightText(day1Weather);
+  lightText(day1Date);
+  
+  
+}
+
 // Small function to shorten code 
 function lightText(titles) {
-  titles.classList.remove('linfo');
+  // titles.classList.remove('linfo');
   titles.classList.add('has-text-light');
 }
 
-
-function pastSearch(search) {
-
-  fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=5&appid=${key}`)
-
-  .then(function(response) {
-    return response.json();
-  })
-  
-  .then(function(data) {
-    console.log(data)
-    locationData = data;
-
-    dataInit(locationData);
-  });
-}
-
-
-
-
-// searchBtn.addEventListener('click', () => {
-//   fetch('https://api.openweathermap.org/data/2.5/weather?id=' + cityID+ '&appid=' + key)  
-//   .then(function(resp) { return resp.json() }) // Convert data to json
-//   .then(function(data) {
-//     console.log(data);
-//   })
-//   .catch(function() {
-//     // catch any errors
-//   });
-// }) 
-  
-
-
-// window.onload = function() {
-//   weatherBalloon( 6167865 );
-// }
-
-// $()
 
 // TODO: GET VALUE FROM SEARCH BAR
 // TODO: PASS VALUE TO WEATHER

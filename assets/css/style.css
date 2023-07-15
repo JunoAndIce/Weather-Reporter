@@ -84,21 +84,12 @@
 }
 
 
-.today .temp {
+.today .wdata {
   font-size: 30px;
+  color: var(--active);
 }
 
 .weather-info {
-  display: flex;
-  justify-content: space-between;
-}
-
-.weather-data {
-  display: flex;
-  justify-content: space-between;
-}
-
-.weather-data {
   display: flex;
   justify-content: space-between;
 }
@@ -122,10 +113,13 @@
   margin: 0 auto;
 }
 
-.current-search {
-  border-radius: 30px;
-  width: 50%;
-  font-size: 1.0em;
-  color: white;
-  margin: 0 auto;
+/* FUTURE FORECAST SECTION  */
+.future .finfo {
+  color: var(--dark-gray);
+  font-size: 20px;
+}
+
+.future .fdata {
+  font-size: 30px;
+  color: var(--active);
 }

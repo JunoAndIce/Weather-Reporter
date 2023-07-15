@@ -53,23 +53,42 @@
           <p id="location" class="linfo title">Location...</p>
           <p id="date" class="linfo subtitle">Today is...</p>
           <p id="weather" class="linfo subtitle">It feels like...</p>
-          <img id="icon" class="weather-icon image is-96x96" src="https://openweathermap.org/img/wn/50d@2x.png">
+          <img id="weather-icon " class="image is-96x96" src="https://openweathermap.org/img/wn/50d@2x.png">
 
           <div>
             <div class="weather-info">
               <div>
-                <p class="winfo has-text-light">Temp:</p>
-                <p class="temp has-text-light"></p>
+                <p class="title winfo">Temp:</p>
+                <p id="temp" class="subtitle wdata"></p>
+                <div>
+                  <p class="title winfo">Feels-Like:</p>
+                  <p id="feels" class="subtitle wdata"></p>
+                </div>
+                <div>
+                  <p class="title winfo">Max Temp:</p>
+                  <p id="maxTemp" class="subtitle wdata"></p>
+                </div>
+                <div>
+                  <p  class="title winfo">Min Temp:</p>
+                  <p id="minTemp" class="subtitle wdata "></p>
+                </div>
+                
               </div>
-              <p class="winfo">Feels-Like:</p>
-              <p class="winfo">Min Temp:</p>
+              
               <div>
-                <p class="winfo">Wind:</p>
-                <p class="wind has-text-light"></p>
+                <p class="title winfo">Wind</p>
+                <div>
+                  <p class="title winfo"> Deg:</p>
+                  <p id="deg" class="subtitle wdata"></p>
+                </div>
+                <div>
+                  <p class="title winfo"> Speed:</p>
+                  <p id="spd" class="subtitle wdata"></p>
+                </div>
               </div>
               <div>
-                <p class="winfo">Humidity:</p>
-                <p class="humid has-text-light"></p>
+                <p class="title winfo">Humidity:</p>
+                <p id="humid" class="subtitle wdata"></p>
               </div>
             </div>
           </div>
@@ -84,7 +103,10 @@
 
   <div class ="tile is-parent">
     <article class="tile is-child">
-      <p class="past-title title has-text-light">Past Searches</p>
+      <div class="past-ctn">
+        <p class="past-title title has-text-light">Past Searches</p>
+        <input class="clear-btn" type="button" value="clear">
+      </div>
       <div class="btn-container">
         <!-- <input class="past-search" type="button" value="CITY DATA"> -->
       </div>
@@ -93,7 +115,7 @@
 </section>
 
 
-<div class="tile is-ancestor">
+<div class="future tile is-ancestor">
   <!-- TOP 2 TILES -->
   <div class="tile is-parent is-12">
       <!-- LEFT TOP TILE -->
@@ -104,16 +126,36 @@
                   <p class="title has-text-light">Featured Forecast</p>
               </article>
           </div>
-          <!-- ROW OF THREE DAY -->
+          <!-- ROW OF 5 DAYs -->
           <div class="tile is-parent">
               <!-- DAY ONE BLOCK-->
-              <div class="tile m-2">
-                  <article class="tile is-child">
-                      <figure class="image is-3by4">
-                          <img src="https://bulma.io/images/placeholders/480x640.png">
-                      </figure>
-                  </article>
+
+              <div class="tile is-parent">
+                <article class="tile is-child">
+                  <p id="day1-weather" class="linfo subtitle">It feels like...</p>
+                  <p id="day1-date" class="linfo subtitle">It will be...</p>
+                  <img id="day1-icon" class="weather-icon image is-96x96" src="https://openweathermap.org/img/wn/50d@2x.png">
+              
+                  <div>
+                    <div class="future-weather-info">
+                      <div>
+                        <p class="title finfo">Temp:</p>
+                        <p id="day1-temp" class="subtitle fdata"></p>
+                      </div>
+              
+                      <div>
+                        <p class="title finfo">Wind Speed:</p>
+                        <p id="day1-windSpd" class="subtitle fdata"></p>
+                      </div>
+                      <div>
+                        <p class="title finfo">Humidity:</p>
+                        <p id="day1-humid" class="subtitle fdata"></p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
               </div>
+
               <!-- DAY TWO BLOCK-->
               <div class="tile m-2">
                   <article class="tile is-child">

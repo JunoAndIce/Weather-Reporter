@@ -25,9 +25,14 @@ var timeZone = '';
 
 var key = '5a2f98c3ec37f50410b5783b70b8d363'
 
-var locationData = [];
-var weatherInformation = [];
-
+var weatherInfo = [];
+var weatherObj = {
+  name: '',
+  state: '',
+  lat: '',
+  long: '',
+  country: '',
+}
 
 // INITIAL SEARCH BUTTON. 
 searchBtn.addEventListener('click', function() {
@@ -39,10 +44,10 @@ searchBtn.addEventListener('click', function() {
   
   .then(function(data) {
     console.log(data)
-    locationData = data;
+    // locationData = data;
     
 
-    dataInit(locationData);
+    dataInit(data);
     createButton(searchValue);
   });
 })
@@ -62,20 +67,22 @@ function createButton(search){
 // DATA INIT SECTION 
 // Get data from the array and pass it into the Getweather function.
 function dataInit(data){
-  var name = data[0].name;
-  var state = data[0].state;
-  var lat = data[0].lat;
-  var long = data[0].lon;
-  var country = data[0].country;
+  
+  weatherObj.name = data[0].name;
+  weatherObj.state = data[0].state;
+  weatherObj.lat = data[0].lat;
+  weatherObj.long = data[0].lon;
+  weatherObj.country = data[0].country;
 
-  
-  getTime(name, country);
-  
-  getWeather(name, state, lat, long, date, country);
+  weatherInfo.push(weatherObj);
+  localStorage.setItem(weatherObj.name , weatherInfo)
+
+  getTime(weatherObj);
+  getWeather(weatherObj);
   
 }
 
-function getTime(name, country){
+function getTime({name, country}){
   // API NINJAS TIMEZONE APPLIED
   $.ajax({
     method: 'GET',
@@ -96,7 +103,7 @@ function getTime(name, country){
 }
 
 // Where semantic html values are changed 
-function getWeather(name,state,lat,long,date,country) {
+function getWeather({lat,long}) {
   fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${key}`)
 
   .then(function(weather) {
@@ -105,29 +112,31 @@ function getWeather(name,state,lat,long,date,country) {
 
   .then(function(weatherData){
 
-    weatherInformation = weatherData;
-    console.log(weatherInformation)
-    tempVal.innerHTML = weatherInformation.main.temp + "&#8451";
-    locVal.innerHTML = weatherInformation.name + ', ' + state;
-    weaVal.innerHTML = weatherInformation.weather[0].main + "... " + weatherInformation.weather[0].description;;
+    console.log(weatherData)
+    showText(weatherData)
+    
+  }) 
+}
+
+function showText(weatherData){
+    tempVal.innerHTML = weatherData.main.temp + "&#8451";
+    locVal.innerHTML = weatherData.name + ', ' + weatherObj.state;
+    weaVal.innerHTML = weatherData.weather[0].main + "... " + weatherData.weather[0].description;;
 
     // getTime();
     // 
-    
     // 
+
     lightText(locVal);
     lightText(weaVal);
     lightText(dateVal);
-    weatherIcon.src = 'https://openweathermap.org/img/wn/' + weatherInformation.weather[0].icon + '@2x.png' ;
-    ;
-  }) 
+    weatherIcon.src = 'https://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '@2x.png';
 }
 
 // Small function to shorten code 
 function lightText(titles) {
   titles.classList.remove('linfo');
   titles.classList.add('has-text-light');
-  
 }
 
 

@@ -55,18 +55,23 @@
           <p id="weather" class="linfo subtitle">It feels like...</p>
           <img id="icon" class="weather-icon image is-96x96" src="https://openweathermap.org/img/wn/50d@2x.png">
 
-          <div class="weather-info">
-            <p class="winfo has-text-light">Temp:</p>
-            <p class="winfo">Feels-Like:</p>
-            <p class="winfo">Min Temp:</p>
-            <p class="winfo">Wind:</p>
-            <p class="winfo">Humidity:</p>
-          </div>
-
-          <div class="weather-data">
-            <p class="temp has-text-light"></p>
-            <p class="wind has-text-light"></p>
-            <p class="humid has-text-light"></p>
+          <div>
+            <div class="weather-info">
+              <div>
+                <p class="winfo has-text-light">Temp:</p>
+                <p class="temp has-text-light"></p>
+              </div>
+              <p class="winfo">Feels-Like:</p>
+              <p class="winfo">Min Temp:</p>
+              <div>
+                <p class="winfo">Wind:</p>
+                <p class="wind has-text-light"></p>
+              </div>
+              <div>
+                <p class="winfo">Humidity:</p>
+                <p class="humid has-text-light"></p>
+              </div>
+            </div>
           </div>
         </article>
       </div>
@@ -148,12 +153,15 @@
 
 
 
-  <script src="./assets/js/script.js"></script>
+  
   <script src="./assets/js/darkmode.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/timezone.js"></script>
   <script
   src="https://code.jquery.com/jquery-3.7.0.js"
   integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
   crossorigin="anonymous"></script>
+  <script src="./assets/js/script.js"></script>
 </body>
 </html>

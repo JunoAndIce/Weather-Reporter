@@ -87,14 +87,13 @@ searchBtn.addEventListener('click', function(e) {
   })
   
   .then(function(data) {
-    console.log(data)
-    // locationData = data;
+    // console.log(data)
     
 
     dataInit(data);
   })
 
-  // .catch(err => alert("Please search for a city!"));
+  .catch(err => alert("Please search for a city!"));
 
   
 })
@@ -104,7 +103,7 @@ createButton();
 function createButton() {
   Object.keys(localStorage).forEach((key) => {
 
-    console.log(key);
+    // console.log(key);
     var newInput = document.createElement("input");
     newInput.type = 'button';
     newInput.value = key;
@@ -118,6 +117,7 @@ function createButton() {
 // Past search functions 
 function pastSearch(s) {
 
+  // Make buttons uppercase 
   const sCap = 
     s.charAt(0).toUpperCase() + s.slice(1); 
 
@@ -160,8 +160,8 @@ function getTime ({name, country}){
     headers: { 'X-Api-Key': '5+fMkk9J6kNWsJlswZRt+w==9jRrN5PiMfoWfMd2' },
     contentType: 'application/json',
     success: function (result) {
-      console.log(result);
-      console.log(result.timezone);
+      // console.log(result);
+      // console.log(result.timezone);
 
       var date = dayjs.utc(reformatDate).tz(result.timezone).format();
       
@@ -183,12 +183,13 @@ function getWeather({lat,long}) {
 
   .then(function(weatherData){
 
-    console.log(weatherData)
-    showText(weatherData)
+    // console.log(weatherData);
+    showText(weatherData);
     
   }) 
 }
 
+// Get 5 day weather forecast 
 function get5Weather({lat,long}) {
   fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${long}&appid=${key}`)
 
@@ -198,7 +199,7 @@ function get5Weather({lat,long}) {
 
   .then(function(weatherData){
 
-    console.log(weatherData)
+    // console.log(weatherData);
     showForecast(weatherData);
     
   }) 
@@ -328,7 +329,6 @@ lightText(day5Date);
 
 // Small function to shorten code 
 function lightText(titles) {
-  // titles.classList.remove('linfo');
   titles.classList.add('has-text-light');
 }
 

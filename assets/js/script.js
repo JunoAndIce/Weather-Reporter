@@ -30,7 +30,39 @@ const day1Temp = document.getElementById("day1-temp");
 const day1WindSpd = document.getElementById("day1-windSpd");
 const day1Humid = document.getElementById("day1-humid");
 
-// DayJS Stuff 
+// DAY 2
+const day2Weather = document.getElementById("day2-weather");
+const day2Date = document.getElementById("day2-date");
+const day2Icon = document.getElementById("day2-icon");
+const day2Temp = document.getElementById("day2-temp");
+const day2WindSpd = document.getElementById("day2-windSpd");
+const day2Humid = document.getElementById("day2-humid");
+
+// DAY 3
+const day3Weather = document.getElementById("day3-weather");
+const day3Date = document.getElementById("day3-date");
+const day3Icon = document.getElementById("day3-icon");
+const day3Temp = document.getElementById("day3-temp");
+const day3WindSpd = document.getElementById("day3-windSpd");
+const day3Humid = document.getElementById("day3-humid");
+
+// DAY 4
+const day4Weather = document.getElementById("day4-weather");
+const day4Date = document.getElementById("day4-date");
+const day4Icon = document.getElementById("day4-icon");
+const day4Temp = document.getElementById("day4-temp");
+const day4WindSpd = document.getElementById("day4-windSpd");
+const day4Humid = document.getElementById("day4-humid");
+
+// DAY 5
+const day5Weather = document.getElementById("day5-weather");
+const day5Date = document.getElementById("day5-date");
+const day5Icon = document.getElementById("day5-icon");
+const day5Temp = document.getElementById("day5-temp");
+const day5WindSpd = document.getElementById("day5-windSpd");
+const day5Humid = document.getElementById("day5-humid");
+
+// DayJS Vars
 var reformatDate = dayjs().format('dddd, MMMM D YYYY, h:mm:ss a');
 var timeZone = '';
 
@@ -158,7 +190,7 @@ function getWeather({lat,long}) {
 }
 
 function get5Weather({lat,long}) {
-  fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&cnt=48&appid=${key}`)
+  fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${long}&appid=${key}`)
 
   .then(function(weather) {
     return weather.json();
@@ -172,7 +204,7 @@ function get5Weather({lat,long}) {
   }) 
 }
 
-
+// FOR CURRENT DAY 
 function showText(weatherData){
     tempVal.innerHTML = weatherData.main.temp + "&deg;c";
     maxTempVal.innerHTML = weatherData.main.temp_max + "&deg;c";
@@ -201,21 +233,97 @@ function showText(weatherData){
     weatherIcon.src = 'https://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '@2x.png';
 }
 
+// FIVE DAY FORECAST
 function showForecast(weatherData){
-  day1Weather.innerHTML = weatherData.list[4].weather[0].main + "... " + weatherData.list[4].weather[0].description;
+  // DAY 1
+  day1Weather.innerHTML = weatherData.daily[0].weather[0].main + "... " + weatherData.daily[0].weather[0].description;
 
-  var futureDate = weatherData.list[4].dt_txt.split(" ");
+//   // GET DATE
+  var unixDate = weatherData.daily[0].dt;
+  var mil = unixDate * 1000;
+  var date = new Date(mil);
+  var futureDate = date.toLocaleString().split(",");
   day1Date.innerHTML = futureDate[0];
 
-  day1Icon.src = 'https://openweathermap.org/img/wn/' + weatherData.list[4].weather[0].icon + '@2x.png';
-  day1Temp.innerHTML = weatherData.list[4].main.temp + "&deg;c";
-  day1WindSpd.innerHTML = weatherData.list[4].wind.speed + 'm/s';
-  day1Humid.innerHTML = weatherData.list[4].main.humidity + '%';
-  
+  day1Icon.src = 'https://openweathermap.org/img/wn/' + weatherData.daily[0].weather[0].icon + '@2x.png';
+  day1Temp.innerHTML = weatherData.daily[0].temp.max + "&deg;c";
+  day1WindSpd.innerHTML = weatherData.daily[0].wind_speed + 'm/s';
+  day1Humid.innerHTML = weatherData.daily[0].humidity + '%';
+
   lightText(day1Weather);
   lightText(day1Date);
-  
-  
+
+  // DAY 2
+  day2Weather.innerHTML = weatherData.daily[1].weather[0].main + "... " + weatherData.daily[0].weather[0].description;
+
+  // GET DATE
+  var unixDate = weatherData.daily[1].dt;
+  var mil = unixDate * 1000;
+  var date = new Date(mil);
+  var futureDate = date.toLocaleString().split(",");
+  day2Date.innerHTML = futureDate[0];
+
+  day2Icon.src = 'https://openweathermap.org/img/wn/' + weatherData.daily[1].weather[0].icon + '@2x.png';
+  day2Temp.innerHTML = weatherData.daily[1].temp.max + "&deg;c";
+  day2WindSpd.innerHTML = weatherData.daily[1].wind_speed + 'm/s';
+  day2Humid.innerHTML = weatherData.daily[1].humidity + '%';
+
+  lightText(day2Weather);
+  lightText(day2Date);
+
+// DAY 3
+day3Weather.innerHTML = weatherData.daily[2].weather[0].main + "... " + weatherData.daily[0].weather[0].description;
+
+// GET DATE
+var unixDate = weatherData.daily[2].dt;
+var mil = unixDate * 1000;
+var date = new Date(mil);
+var futureDate = date.toLocaleString().split(",");
+day3Date.innerHTML = futureDate[0];
+
+day3Icon.src = 'https://openweathermap.org/img/wn/' + weatherData.daily[2].weather[0].icon + '@2x.png';
+day3Temp.innerHTML = weatherData.daily[2].temp.max + "&deg;c";
+day3WindSpd.innerHTML = weatherData.daily[2].wind_speed + 'm/s';
+day3Humid.innerHTML = weatherData.daily[2].humidity + '%';
+
+lightText(day3Weather);
+lightText(day3Date);
+
+// DAY 4
+day4Weather.innerHTML = weatherData.daily[3].weather[0].main + "... " + weatherData.daily[0].weather[0].description;
+
+// GET DATE
+var unixDate = weatherData.daily[3].dt;
+var mil = unixDate * 1000;
+var date = new Date(mil);
+var futureDate = date.toLocaleString().split(",");
+day4Date.innerHTML = futureDate[0];
+
+day4Icon.src = 'https://openweathermap.org/img/wn/' + weatherData.daily[3].weather[0].icon + '@2x.png';
+day4Temp.innerHTML = weatherData.daily[3].temp.max + "&deg;c";
+day4WindSpd.innerHTML = weatherData.daily[3].wind_speed + 'm/s';
+day4Humid.innerHTML = weatherData.daily[3].humidity + '%';
+
+lightText(day4Weather);
+lightText(day4Date);
+
+// DAY 5
+day5Weather.innerHTML = weatherData.daily[4].weather[0].main + "... " + weatherData.daily[0].weather[0].description;
+
+// GET DATE
+var unixDate = weatherData.daily[4].dt;
+var mil = unixDate * 1000;
+var date = new Date(mil);
+var futureDate = date.toLocaleString().split(",");
+day5Date.innerHTML = futureDate[0];
+
+day5Icon.src = 'https://openweathermap.org/img/wn/' + weatherData.daily[4].weather[0].icon + '@2x.png';
+day5Temp.innerHTML = weatherData.daily[4].temp.max + "&deg;c";
+day5WindSpd.innerHTML = weatherData.daily[4].wind_speed + 'm/s';
+day5Humid.innerHTML = weatherData.daily[4].humidity + '%';
+
+lightText(day5Weather);
+lightText(day5Date);
 }
 
 // Small function to shorten code 

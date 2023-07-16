@@ -98,7 +98,8 @@
 .btn-container{
   display: flex;
   flex-direction: column;
-  gap: 15px
+  gap: 15px;
+  margin-top: 15px;
 }
 
 .past-title {
@@ -111,6 +112,20 @@
   font-size: 1.0em;
   color: white;
   margin: 0 auto;
+}
+
+.past-ctn {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.clear-btn {
+  margin: 0 auto;
+  width: 25%;
+  border-radius: 30px;
+  font-size: 1.0em;
+  color: white;
 }
 
 /* FUTURE FORECAST SECTION  */
